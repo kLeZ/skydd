@@ -29,7 +29,7 @@
 	</parent>
 	<groupId>me.klez</groupId>
 	<artifactId>skydd</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>SkyDD</name>
 	<description>This is a simple, multiplatform, advanced cli, url cleaner for the shell.</description>
 	<developers>

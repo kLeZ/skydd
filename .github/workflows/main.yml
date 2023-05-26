@@ -1,0 +1,33 @@
+name: SkyDD Build
+on: [ push, pull_request ]
+jobs:
+  build:
+    name: SkyDD on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ macos-latest, windows-latest, ubuntu-latest ]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          version: '22.3.0'
+          java-version: '17'
+          components: 'native-image'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          native-image-job-reports: 'true'
+      - name: Show information
+        run: |
+          echo "GRAALVM_HOME: $GRAALVM_HOME"
+          echo "JAVA_HOME: $JAVA_HOME"
+          java --version
+          gu --version
+          native-image --version
+          ./mvnw --version
+      - name: Build and run SkyDD
+        run: ./mvnw -Pnative clean verify native-image:compile
+      - name: Upload binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: skydd-${{ matrix.os }}
+          path: target/skydd*
