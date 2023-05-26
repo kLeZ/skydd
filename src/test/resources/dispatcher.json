@@ -1,0 +1,27 @@
+{
+  "routes": [
+    {
+      "path": "/1ab8cdcb597a424e87b39362a258f19a",
+      "response": {
+        "url": "${origin}/2023/05/26/aereo-corea-del-sud-portellone-aperto-arrestato/?utm_source=telegram&utm_medium=social&utm_campaign=lancio",
+        "status": 301,
+        "headers": {
+          "content-type": "text/html; charset=UTF-8",
+          "location": "${origin}/2023/05/26/aereo-corea-del-sud-portellone-aperto-arrestato/?utm_source=telegram&utm_medium=social&utm_campaign=lancio"
+        },
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n\t<meta charset=\"UTF-8\" />\n\t<meta http-equiv=\"refresh\" content=\"0;url='%1$s'\" />\n\t<title>Redirecting to %1$s</title>\n</head>\n<body>\n\tRedirecting to <a href=\"%1$s\">%1$s</a>.\n</body>\n</html>"
+      }
+    },
+    {
+      "path": "/2023/05/26/aereo-corea-del-sud-portellone-aperto-arrestato/?utm_source=telegram&utm_medium=social&utm_campaign=lancio",
+      "response": {
+        "url": "${origin}/2023/05/26/aereo-corea-del-sud-portellone-aperto-arrestato/?utm_source=telegram&utm_medium=social&utm_campaign=lancio",
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=UTF-8"
+        },
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n\t<meta charset=\"UTF-8\" />\n\t<title>Test page saying Hello!</title>\n</head>\n<body>\n\tHello world of mockwebserver tests, from %s!\n</body>\n</html>"
+      }
+    }
+  ]
+}

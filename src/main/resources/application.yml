@@ -1,0 +1,44 @@
+spring:
+  main:
+    banner-mode: off
+    log-startup-info: false
+  shell:
+    command:
+      version:
+        enabled: true
+        show-build-artifact: true
+        show-build-group: true
+        show-build-name: true
+        show-build-time: true
+        show-build-version: true
+        show-git-branch: true
+        show-git-commit-id: true
+        show-git-short-commit-id: true
+        show-git-commit-time: true
+http-client:
+  proxy:
+    enabled: false
+    host: proxy-host
+    port: 9090
+    username: proxy-username
+    password: proxy-password
+  ssl-validation:
+    enabled: true
+sanitizer:
+  default-param-queries:
+    - utm_
+    - fbclid
+    - gclid
+    - msclkid
+    - cmpid
+    - refsrc
+    - referrer
+    - cid
+    - aff_id
+    - aff_sub
+    - aff_sub2
+    - aff_sub3
+    - aff_sub4
+    - aff_sub5
+    - subid
+    - click_id
