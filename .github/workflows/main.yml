@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - uses: graalvm/setup-graalvm@v1
+      - uses: graalvm/setup-graalvm@latest
         with:
           version: 'latest'
           java-version: '17'
@@ -30,48 +30,28 @@ jobs:
           gu --version
           native-image --version
           ./mvnw --version
-      - name: Build and run SkyDD
-        run: ./mvnw -Pnative clean verify native:compile-no-fork
-      - name: Upload binary
-        uses: actions/upload-artifact@v2
-        with:
-          name: skydd-${{ matrix.os }}
-          path: target/skydd
-      - name: Version
+      - name: Build and run SkyDD on Linux and macOS
+        run: ./mvnw -Pnative clean verify native:compile
+        if: env.RUNNER_OS != 'Windows'
+      - name: Build and run SkyDD οn Windows
+        run: .\mvnw.cmd -Pnative clean verify native:compile
+        if: env.RUNNER_OS == 'Windows'
+      - name: Version on Linux and macOS
         run: echo "::set-output name=version::$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)"
         id: version
-      - name: Create release
-        uses: actions/create-release@v1
-        id: create_release
+        if: env.RUNNER_OS != 'Windows'
+      - name: Version on Windows
+        run: echo "::set-output name=version::$(.\mvnw.cmd help:evaluate -Dexpression=project.version -q -DforceStdout)"
+        id: version
+        if: env.RUNNER_OS == 'Windows'
+      - uses: marvinpinto/action-automatic-releases@latest
         with:
-          draft: false
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          title: "Release v${{ steps.version.outputs.version }}"
+          automatic_release_tag: "v${{ steps.version.outputs.version }}"
           prerelease: false
-          release_name: ${{ steps.version.outputs.version }}
-          tag_name: ${{ github.ref }}
-          body_path: CHANGELOG.md
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-      - name: Upload binary
-        uses: actions/upload-artifact@v2
-        with:
-          name: skydd-${{ matrix.os }}
-          path: target/skydd
-      - name: Upload Linux artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./bin/skydd.linux-amd64.tar.gz
-          asset_name: skydd.linux-amd64.tar.gz
-          asset_content_type: application/gzip
-      - name: upload darwin artifact
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./bin/skydd.darwin-amd64.tar.gz
-          asset_name: skydd.darwin-amd64.tar.gz
-          asset_content_type: application/gzip
+          draft: false
+          files: |
+            LICENSE
+            target/skydd*
       - run: echo "🍏 This job's status is ${{ job.status }}."
