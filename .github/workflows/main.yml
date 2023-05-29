@@ -39,9 +39,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           title: "Release v${{ steps.version.outputs.version }}"
-          automatic_release_tag: "v${{ steps.version.outputs.version }}"
           prerelease: false
-          draft: false
           files: |
             LICENSE
             target/skydd*
