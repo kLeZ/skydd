@@ -32,18 +32,9 @@ jobs:
           ./mvnw --version
       - name: Build and run SkyDD on Linux and macOS
         run: ./mvnw -Pnative clean verify native:compile
-        if: env.RUNNER_OS != 'Windows'
-      - name: Build and run SkyDD οn Windows
-        run: .\mvnw.cmd -Pnative clean verify native:compile
-        if: env.RUNNER_OS == 'Windows'
       - name: Version on Linux and macOS
         run: echo "::set-output name=version::$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)"
         id: version
-        if: env.RUNNER_OS != 'Windows'
-      - name: Version on Windows
-        run: echo "::set-output name=version::$(.\mvnw.cmd help:evaluate -Dexpression=project.version -q -DforceStdout)"
-        id: version
-        if: env.RUNNER_OS == 'Windows'
       - uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
