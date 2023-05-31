@@ -71,13 +71,12 @@ jobs:
       id: version
       working-directory: ${{steps.download.outputs.download-path}}
     - uses: marvinpinto/action-automatic-releases@latest
-      working-directory: ${{steps.download.outputs.download-path}}
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         title: "Release v${{ steps.version.outputs.version }}"
         prerelease: false
         automatic_release_tag: "v${{ steps.version.outputs.version }}"
         files: |
-          LICENSE
-          VERSION
-          skydd-*.tar.gz
+          ${{steps.download.outputs.download-path}}/LICENSE
+          ${{steps.download.outputs.download-path}}/VERSION
+          ${{steps.download.outputs.download-path}}/skydd-*.tar.gz
