@@ -32,16 +32,38 @@ jobs:
           ./mvnw --version
       - name: Build and run SkyDD on Linux and macOS
         run: ./mvnw -Pnative clean verify native:compile
-      - name: Version on Linux and macOS
-        run: echo "::set-output name=version::$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)"
+      - name: Version
+        run: ./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout > VERSION
         id: version
-      - uses: marvinpinto/action-automatic-releases@latest
+      - name: Upload artifacts for ${{ runner.os }}
+        uses: actions/upload-artifact@v2
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          title: "Release v${{ steps.version.outputs.version }}"
-          prerelease: false
-          automatic_release_tag: "latest"
-          files: |
-            LICENSE
+          name: skydd-${{ runner.os }}-${{ runner.arch }}
+          path: |
             target/skydd*
+            LICENSE
+            VERSION
       - run: echo "🍏 This job's status is ${{ job.status }}."
+  release:
+    name: SkyDD Release
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+    - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+    - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      id: download
+    - name: Read Version
+      run: echo "::set-output name=version::$(cat ${{steps.download.outputs.download-path}}/VERSION)"
+      id: version
+    - uses: marvinpinto/action-automatic-releases@latest
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        title: "Release v${{ steps.version.outputs.version }}"
+        prerelease: false
+        automatic_release_tag: "v${{ steps.version.outputs.version }}"
+        files: |
+          ${{steps.download.outputs.download-path}}/LICENSE
+          ${{steps.download.outputs.download-path}}/VERSION
+          ${{steps.download.outputs.download-path}}/target/skydd*

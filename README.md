@@ -1,6 +1,6 @@
 # SkyDD
 
-[![SkyDD Build](https://github.com/kLeZ/skydd/actions/workflows/main.yml/badge.svg)](https://github.com/kLeZ/skydd/actions/workflows/main.yml)
+[![SkyDD Build](https://github.com/kLeZ/skydd/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/kLeZ/skydd/actions/workflows/main.yml)
 
 > Α tool to help with urls.
 
