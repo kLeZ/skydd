@@ -1,5 +1,5 @@
 name: SkyDD Build
-on: [ push, pull_request, schedule, workflow_run ]
+on: [ push, pull_request ]
 jobs:
   build:
     name: SkyDD on ${{ matrix.os }}
