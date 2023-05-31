@@ -57,11 +57,11 @@ jobs:
       id: download
     - run: ls -lhR .
       working-directory: ${{steps.download.outputs.download-path}}
-    - name: Copy version file from first directory
-      run: cp $(ls -1 | head -1)/VERSION .
-      working-directory: ${{steps.download.outputs.download-path}}
-    - name: Copy license file from first directory
-      run: cp $(ls -1 | head -1)/LICENSE .
+    - name: Copy version and license files from first directory
+      run: |
+        export DIR="$(ls -1 | head -1)"
+        cp ${DIR}/VERSION .
+        cp ${DIR}/LICENSE .
       working-directory: ${{steps.download.outputs.download-path}}
     - name: Create release archives
       run: find . -type d -iname 'skydd-*' -exec tar czf {}.tar.gz {} \;
