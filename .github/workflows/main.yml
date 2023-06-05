@@ -67,7 +67,7 @@ jobs:
       run: find . -type d -iname 'skydd-*' -exec tar czf {}.tar.gz {} \;
       working-directory: ${{steps.download.outputs.download-path}}
     - name: Extract release binaries
-      run: find . -type d -iname 'skydd-*' -exec cp {}/skydd {} \;
+      run: find . -type d -iname 'skydd-*' -exec cp {}/target/skydd {} \;
       working-directory: ${{steps.download.outputs.download-path}}
     - name: Read Version
       run: echo "::set-output name=version::$(cat VERSION)"
