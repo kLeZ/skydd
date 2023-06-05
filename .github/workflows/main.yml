@@ -66,6 +66,9 @@ jobs:
     - name: Create release archives
       run: find . -type d -iname 'skydd-*' -exec tar czf {}.tar.gz {} \;
       working-directory: ${{steps.download.outputs.download-path}}
+    - name: Extract release binaries
+      run: find . -type d -iname 'skydd-*' -exec cp {}/skydd {} \;
+      working-directory: ${{steps.download.outputs.download-path}}
     - name: Read Version
       run: echo "::set-output name=version::$(cat VERSION)"
       id: version
@@ -79,4 +82,4 @@ jobs:
         files: |
           ${{steps.download.outputs.download-path}}/LICENSE
           ${{steps.download.outputs.download-path}}/VERSION
-          ${{steps.download.outputs.download-path}}/skydd-*.tar.gz
+          ${{steps.download.outputs.download-path}}/skydd-*

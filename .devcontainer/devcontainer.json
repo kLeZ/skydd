@@ -3,8 +3,21 @@
   "features": {
     "ghcr.io/devcontainers-contrib/features/springboot-sdkman:2": {
       "version": "3.0.7",
-      "jdkVersion": "22.3.r17",
+      "jdkVersion": "22.3.2.r17-grl",
       "jdkDistro": "grl"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "donjayamanne.git-extension-pack",
+        "ndagistanley.markdown-ext-pack",
+        "vmware.vscode-boot-dev-pack",
+        "joyous-coder.springboot-extension-pack",
+        "pflannery.vscode-versionlens",
+        "devantler.github-extension-pack",
+        "GitHub.vscode-github-actions"
+      ]
     }
   }
 }
