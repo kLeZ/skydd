@@ -35,14 +35,23 @@ jobs:
       - name: Version
         run: ./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout > VERSION
         id: version
+      - name: Copy binary
+        run: |
+          echo "skydd-${{ runner.os }}-${{ runner.arch }}" | tr '[:upper:]' '[:lower:]' > BIN_NAME
+          cp target/skydd $(cat BIN_NAME)
+          cp target/skydd-*.jar .
+          echo "::set-output name=bin_name::$(cat BIN_NAME)"
+        id: bin
       - name: Upload artifacts for ${{ runner.os }}
         uses: actions/upload-artifact@v2
         with:
           name: skydd-${{ runner.os }}-${{ runner.arch }}
           path: |
-            target/skydd*
+            ${{ steps.bin.outputs.bin_name }}
+            skydd-*.jar
             LICENSE
             VERSION
+            BIN_NAME
       - run: echo "🍏 This job's status is ${{ job.status }}."
   release:
     name: SkyDD Release
@@ -57,17 +66,18 @@ jobs:
       id: download
     - run: ls -lhR .
       working-directory: ${{steps.download.outputs.download-path}}
-    - name: Copy version and license files from first directory
+    - name: Copy cross-platform files from first directory
       run: |
         export DIR="$(ls -1 | head -1)"
         cp ${DIR}/VERSION .
         cp ${DIR}/LICENSE .
+        cp ${DIR}/skydd-*.jar .
       working-directory: ${{steps.download.outputs.download-path}}
     - name: Create release archives
       run: find . -type d -iname 'skydd-*' -exec tar czf {}.tar.gz {} \;
       working-directory: ${{steps.download.outputs.download-path}}
     - name: Extract release binaries
-      run: find . -type d -iname 'skydd-*' -exec cp {}/target/skydd {} \;
+      run: find . -type f -iname 'skydd-*' -exec cp {} . \;
       working-directory: ${{steps.download.outputs.download-path}}
     - name: Read Version
       run: echo "::set-output name=version::$(cat VERSION)"
