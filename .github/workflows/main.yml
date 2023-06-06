@@ -43,7 +43,7 @@ jobs:
           echo "::set-output name=bin_name::$(cat BIN_NAME)"
         id: bin
       - name: Upload artifacts for ${{ runner.os }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: skydd-${{ runner.os }}-${{ runner.arch }}
           path: |
