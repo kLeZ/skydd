@@ -40,7 +40,7 @@ jobs:
           echo "skydd-${{ runner.os }}-${{ runner.arch }}" | tr '[:upper:]' '[:lower:]' > BIN_NAME
           cp target/skydd $(cat BIN_NAME)
           cp target/skydd-*.jar .
-          echo "::set-output name=bin_name::$(cat BIN_NAME)"
+          echo "bin_name=$(cat BIN_NAME)" >> "$GITHUB_OUTPUT"
         id: bin
       - name: Upload artifacts for ${{ runner.os }}
         uses: actions/upload-artifact@v3
@@ -80,7 +80,7 @@ jobs:
       run: find . -type f -iname 'skydd-*' -exec cp {} . \;
       working-directory: ${{steps.download.outputs.download-path}}
     - name: Read Version
-      run: echo "::set-output name=version::$(cat VERSION)"
+      run: echo "version=$(cat VERSION)" >> "$GITHUB_OUTPUT"
       id: version
       working-directory: ${{steps.download.outputs.download-path}}
     - uses: marvinpinto/action-automatic-releases@latest
