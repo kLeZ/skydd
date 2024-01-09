@@ -22,7 +22,7 @@ package me.klez.skydd.services;
 import me.klez.skydd.JsonDispatcher;
 import me.klez.skydd.Utils;
 import me.klez.skydd.config.SanitizerConfig;
-import okhttp3.mockwebserver.MockWebServer;
+import mockwebserver3.MockWebServer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

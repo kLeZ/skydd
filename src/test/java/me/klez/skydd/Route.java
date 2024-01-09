@@ -22,8 +22,8 @@ package me.klez.skydd;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Generated;
 import lombok.Data;
+import mockwebserver3.MockResponse;
 import okhttp3.Headers;
-import okhttp3.mockwebserver.MockResponse;
 
 import java.io.Serializable;
 import java.util.Map;

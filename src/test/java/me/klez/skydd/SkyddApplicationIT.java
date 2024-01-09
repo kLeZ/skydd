@@ -28,7 +28,7 @@ import org.springframework.context.ApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
+@SpringBootTest(properties = { "spring.shell.interactive.enabled=false", "spring.shell.noninteractive.primary-command=help", "spring.shell.context.close=false" })
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 class SkyddApplicationIT {

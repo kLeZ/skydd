@@ -3,6 +3,15 @@ spring:
     banner-mode: off
     log-startup-info: false
   shell:
+    context:
+      close: true
+    interactive:
+      enabled: false
+    script:
+      enabled: false
+    noninteractive:
+      enabled: true
+      primary-command: sanitize
     command:
       version:
         enabled: true
@@ -42,3 +51,6 @@ sanitizer:
     - aff_sub5
     - subid
     - click_id
+logging:
+  level:
+    org.jline: error
